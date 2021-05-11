@@ -9,7 +9,11 @@ const categorySchema = new Schema({
     type: String,
     required: true
   },
-  category: {
+  icon: {
+    type: String,
+    required: true
+  },
+  subcategory: {
     type: Array,
     required: true
   }
