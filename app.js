@@ -2,9 +2,17 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const hbshelpers = require('handlebars-helpers')
 const multihelpers = hbshelpers()
+const routes = require('./routes') // 引用路由器
+require('./config/mongoose') // 引用資料庫
 
 const app = express()
 const port = 3000
+
+// 設定每一筆請求都會透過 methodOverride 進行前置處理
+app.use(methodOverride('_method'))
+
+// setting static files
+app.use(express.static('public'))
 
 app.use(express.urlencoded({
   extended: true
@@ -14,13 +22,8 @@ app.use(express.urlencoded({
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs', helpers: multihelpers }))
 app.set('view engine', 'hbs')
 
-// setting static files
-app.use(express.static('public'))
-
-// home page
-app.get('/', (req, res) => {
-  console.log('Run App.js')
-})
+// 將 request 導入路由器
+app.use(routes)
 
 // listening
 app.listen(port, () => {
