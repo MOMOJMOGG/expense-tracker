@@ -1,6 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const hbshelpers = require('handlebars-helpers')
+const methodOverride = require('method-override')
 const multihelpers = hbshelpers()
 const routes = require('./routes') // 引用路由器
 require('./config/mongoose') // 引用資料庫

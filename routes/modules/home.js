@@ -6,7 +6,7 @@ const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
 
 router.get('/', (req, res) => {
-
+  res.render('index')
 })
 
 router.post('/', (req, res) => {

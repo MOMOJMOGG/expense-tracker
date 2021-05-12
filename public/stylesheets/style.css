@@ -1,0 +1,21 @@
+.body {
+
+}
+
+.total-amount {
+  font-size: 72px;
+  color: rgb(238, 172, 50);
+}
+
+.amount {
+  font-size: 36px;
+}
+
+.reset-link {
+  text-decoration: none;
+}
+
+.reset-link:link {
+  color: inherit;
+  text-decoration: none;
+}
