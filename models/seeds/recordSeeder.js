@@ -9,11 +9,14 @@ db.once('open', () => {
   recordsList.results.forEach(record => {
     promise.push(
       Record.create({
+        type: record.type,
         name: record.name,
         category: record.category,
         subcategory: record.subcategory,
         date: record.date,
-        amount: record.amount
+        amount: record.amount,
+        location: record.location,
+        receipt: record.receipt
       })
     )
 

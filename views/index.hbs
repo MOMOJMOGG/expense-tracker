@@ -22,28 +22,29 @@
 
 <div class="container mt-5 mx-auto d-flex justify-content-between">
   <div class="list-group col-8 mx-auto">
-    <a class="reset-link" data-toggle="collapse" href="#collapseDetails" aria-expanded="false"
+    {{#each record}}
+    <a class="reset-link" data-toggle="collapse" href="#collapse{{this._id}}" aria-expanded="false"
       aria-controls="collapseDetails">
       <div class="list-group-item d-flex justify-content-between w-100">
         <div class="media">
-          <span class="my-auto mr-3" style="vertical-align: middle;"><i class="fas fa-home fa-3x"></i></span>
+          <span class="my-auto mr-3" style="vertical-align: middle;">{{{ this.icon }}}</span>
           <div class="media-body">
-            <h3>午餐</h3>
-            <small>2019-04-23</small>
+            <h3>{{this.name}}</h3>
+            <small>{{this.date}}</small>
           </div>
         </div>
         <div class="d-inline my-auto text-center">
-          <h2 class="amount">60</h2>
+          <h2 class="amount">{{this.amount}}</h2>
         </div>
       </div>
     </a>
-    <div class="collapse" id="collapseDetails">
+    <div class="collapse" id="collapse{{this._id}}">
       <div class="card">
         <div class="card-header">
-          支出明細
+          {{this.type}}明細
         </div>
         <div class="card-body">
-          <h3 class="card-title my-auto text-bold">午餐</h3>
+          <h3 class="card-title my-auto text-bold">{{this.name}}</h3>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
@@ -51,7 +52,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">分類 : </span>
               </div>
-              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="餐飲食品" readonly>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{this.category}}" readonly>
             </div>
           </li>
           <li class="list-group-item">
@@ -59,7 +61,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">子分類 : </span>
               </div>
-              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="午餐" readonly>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{this.subcategory}}" readonly>
             </div>
           </li>
           <li class="list-group-item">
@@ -67,7 +70,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">日期 : </span>
               </div>
-              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="2019-04-23"
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="{{this.date}}"
                 readonly>
             </div>
           </li>
@@ -76,7 +79,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">地點 : </span>
               </div>
-              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="八方雲集" readonly>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{this.location}}" readonly>
             </div>
           </li>
           <li class="list-group-item">
@@ -84,7 +88,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">花費 : $</span>
               </div>
-              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="60" readonly>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{this.amount}}" readonly>
             </div>
           </li>
           <li class="list-group-item">
@@ -92,8 +97,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">發票 : </span>
               </div>
-              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="FX-2345678"
-                readonly>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{this.receipt}}" readonly>
             </div>
           </li>
         </ul>
@@ -105,13 +110,10 @@
         </div>
       </div>
     </div>
+    {{/each}}
     {{!-- --}}
     {{!-- --}}
 
     {{!-- --}}
   </div>
-
-  {{!-- <div class="option w-20 d-inline">
-
-  </div> --}}
 </div>

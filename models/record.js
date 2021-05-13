@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const recordSchema = new Schema({
+  type: {
+    type: String,
+    require: true
+  },
   name: {
     type: String,
     required: true
@@ -20,6 +24,14 @@ const recordSchema = new Schema({
   amount: {
     type: Number,
     required: true
+  },
+  location: {
+    type: String,
+    required: false
+  },
+  receipt: {
+    type: String,
+    require: false
   }
 })
 

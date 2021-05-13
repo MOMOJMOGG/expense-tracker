@@ -3,7 +3,7 @@
     {
       "type": "支出",
       "name": "家居物業",
-      "icon": "<i class='fas fa-home'></i>",
+      "icon": "<i class='fas fa-home fa-3x'></i>",
       "subcategory": [
         "日常用品",
         "水電瓦斯費",
@@ -16,7 +16,7 @@
     {
       "type": "支出",
       "name": "交通出行",
-      "icon": "<i class='fas fa-shuttle-van'></i>",
+      "icon": "<i class='fas fa-shuttle-van fa-3x'></i>",
       "subcategory": [
         "計程車費",
         "客運捷運費",
@@ -31,7 +31,7 @@
     {
       "type": "支出",
       "name": "休閒娛樂",
-      "icon": "<i class='fas fa-grin-beam'></i>",
+      "icon": "<i class='fas fa-grin-beam fa-3x'></i>",
       "subcategory": [
         "運動健身",
         "聚餐聚會",
@@ -44,7 +44,7 @@
     {
       "type": "支出",
       "name": "餐飲食品",
-      "icon": "<i class='fas fa-utensils'></i>",
+      "icon": "<i class='fas fa-utensils fa-3x'></i>",
       "subcategory": [
         "早餐",
         "午餐",
@@ -57,7 +57,7 @@
     {
       "type": "支出",
       "name": "其他",
-      "icon": "<i class='fas fa-pen'></i>",
+      "icon": "<i class='fas fa-pen fa-3x'></i>",
       "subcategory": [
         "學習進修費",
         "送禮請客",
