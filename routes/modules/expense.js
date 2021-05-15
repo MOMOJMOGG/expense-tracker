@@ -38,26 +38,46 @@ router.get('/:recordId/edit', async (req, res) => {
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
   Record.findById(recordId)
     .lean()
-    .then(rec => {
-      rec.date = moment(rec.date).format('YYYY-MM-DD')
+    .then(record => {
+      record.date = moment(record.date).format('YYYY-MM-DD')
       res.render('edit', { categories, record })
     })
     .catch(err => console.log(err))
 })
 
-router.get('/:recordId/edit/succeed', (req, res) => {
+router.get('/:recordId/edit/succeed', async (req, res) => {
   const recordId = req.params.recordId
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
   Record.findById(recordId)
     .lean()
-    .then(rec => {
-      rec.date = moment(rec.date).format('YYYY-MM-DD')
-      res.render('edit', { rec, createSucceed: true })
+    .then(record => {
+      record.date = moment(record.date).format('YYYY-MM-DD')
+      res.render('edit', { categories, record, editSucceed: true })
     })
     .catch(err => console.log(err))
 })
 
-router.put('/:recordId', (req, res) => {
+router.put('/:recordId', async (req, res) => {
+  const recordId = req.params.recordId
+  const options = req.body
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
 
+  return Record.findById(recordId)
+    .then(record => {
+      record.type = options.type
+      record.name = options.name
+      record.date = options.date
+      record.amount = options.amount
+      record.location = options.location
+      record.receipt = options.receipt
+
+      const cateTarget = categories.find(cat => cat.category_en === options.category)
+      record.category = cateTarget.category
+      record.subcategory = cateTarget.subcategory[Number(options.subcategory)]
+      return record.save()
+    })
+    .then(() => res.redirect(`/expense/${recordId}/edit/succeed`))
+    .catch(err => console.log(err))
 })
 
 router.delete('/:recordId', (req, res) => {

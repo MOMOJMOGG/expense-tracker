@@ -1,46 +1,66 @@
 <div class="container mt-5 select-bar">
   <div class="row">
     <div class="card col-8 mx-auto">
-      <div class="card-body">
-        <h3 class="card-title my-auto text-bold">
+      <div class="card-body d-flex">
+        <h3 class="card-title my-auto text-bold mr-3">
           編輯支出
         </h3>
+        <h5 style="color: red;">* : 為必填選項</h5>
       </div>
-      <form action="/expense/new/create" method="POST">
+      <form action="/expense/{{record._id}}?_method=PUT" method="POST">
+
+        <div class="form-group w-100">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">項目* : </span>
+            </div>
+            <input type="text" class="form-control" name="name" id="rec-name" value="{{record.name}}"
+              aria-label="Amount (to the nearest dollar)" required>
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-group w-100">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">項目 : </span>
+                <span class="input-group-text">分類* : </span>
               </div>
-              <input type="text" class="form-control" name="name" id="rec-name" value="{{rec.name}}"
-                aria-label="Amount (to the nearest dollar)" required>
+              <select name="category" class="form-control btn-outline-secondary" id='rec-category'
+                style="cursor: pointer;">
+                <option id="cat-default" class="placeholder" disabled {{#if init}}selected{{/if}} hidden>類別</option>
+                {{#each categories }}
+                <option value="{{this.category_en}}" {{#if (match ../record.category this.category)}}selected{{/if}}>
+                  {{this.category}}</option>
+                {{/each}}
+              </select>
             </div>
           </div>
+
           <div class="form-group w-100">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">分類 : </span>
+                <span class="input-group-text">子分類* : </span>
               </div>
-              <input type="text" class="form-control" name="category" id="rec-category" value="{{rec.category}}"
-                aria-label="Amount (to the nearest dollar)" required>
+              <select name="subcategory" class="form-control btn-outline-secondary" id='rec-subcategory'
+                style="cursor: pointer;">
+                <option id="sub-default" class="placeholder" disabled {{#if subInit}}selected{{/if}} hidden>子類別</option>
+                {{#each categories}}
+                {{#each this.subcategory}}
+                <option data-name="{{../this.category_en}}" value="{{@index}}" {{#if (match ../../record.subcategory
+                  this)}}selected{{/if}} hidden>
+                  {{this}}</option>
+                {{/each}}
+                {{/each}}
+              </select>
             </div>
           </div>
+
           <div class="form-group w-100">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">子分類 : </span>
+                <span class="input-group-text">日期* : </span>
               </div>
-              <input type="text" class="form-control" name="subcategory" id="rec-subcategory"
-                value="{{rec.subcategory}}" aria-label="Amount (to the nearest dollar)" required>
-            </div>
-          </div>
-          <div class="form-group w-100">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">日期 : </span>
-              </div>
-              <input type="text" class="form-control" name="date" id="rec-date" value="{{rec.date}}"
+              <input type="date" class="form-control" name="date" id="rec-date" min="2019-01-01" value="{{record.date}}"
                 aria-label="Amount (to the nearest dollar)" required>
             </div>
           </div>
@@ -50,7 +70,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">地點 : </span>
                 </div>
-                <input type="text" class="form-control" name="location" id="rec-location" value="{{rec.location}}"
+                <input type="text" class="form-control" name="location" id="rec-location" value="{{record.location}}"
                   aria-label="Amount (to the nearest dollar)">
               </div>
             </div>
@@ -58,9 +78,9 @@
           <div class="form-group w-100">
             <div class="input-group">
               <div class="input-group-prepend">
-                <span class="input-group-text">花費 : $</span>
+                <span class="input-group-text">花費* : $</span>
               </div>
-              <input type="text" class="form-control" name="amount" id="rec-amount" value="{{rec.amount}}"
+              <input type="number" class="form-control" name="amount" id="rec-amount" value="{{record.amount}}"
                 aria-label="Amount (to the nearest dollar)" required>
             </div>
           </div>
@@ -69,17 +89,20 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">發票 : </span>
               </div>
-              <input type="text" class="form-control" name="receipt" id="rec-receipt" value="{{rec.receipt}}"
+              <input type="text" class="form-control" name="receipt" id="rec-receipt" value="{{record.receipt}}"
                 aria-label="Amount (to the nearest dollar)">
             </div>
           </div>
+
           <div class="card-body d-flex justify-content-center">
+            <a href="/"><button class="btn btn btn-outline-primary mr-3" type="button">Back to Home Page</button></a>
             <button class="btn btn-success" type="submit">Update</button>
           </div>
+
         </div>
       </form>
       <!-- Add Succeed display -->
-      {{#if createSucceed}}
+      {{#if editSucceed}}
       <div class="alert alert-info" role="alert">
         <span class="mr-2">Update Record: </span> <code>Succeed!</code>
       </div>

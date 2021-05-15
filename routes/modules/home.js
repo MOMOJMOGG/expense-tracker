@@ -10,20 +10,6 @@ router.get('/', async (req, res) => {
   const records = await Record.find().lean().sort({ date: 'desc' })
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
   res.render('index', { record: records, categories: categories })
-  // Record.find()
-  //   .lean()
-  //   .then(record => {
-  //     record.forEach(async (r) => {
-  //       const targetIcon = await CategoryModel.find().where('category').equals(r.category).then(category => {
-  //         return category[0].icon
-  //       })
-
-  //       r.icon = targetIcon
-  //       r.date = moment(r.date).format('YYYY-MM-DD')
-  //     })
-  //     res.render('index', { record })
-  //   })
-
 })
 
 router.post('/', (req, res) => {
