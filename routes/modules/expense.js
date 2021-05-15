@@ -34,7 +34,7 @@ router.post('/new/create', async (req, res) => {
 })
 
 router.get('/:recordId/edit', async (req, res) => {
-  const recordId = req.params.recordId
+  const { recordId } = req.params
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
   Record.findById(recordId)
     .lean()
@@ -46,7 +46,7 @@ router.get('/:recordId/edit', async (req, res) => {
 })
 
 router.get('/:recordId/edit/succeed', async (req, res) => {
-  const recordId = req.params.recordId
+  const { recordId } = req.params
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
   Record.findById(recordId)
     .lean()
@@ -58,7 +58,7 @@ router.get('/:recordId/edit/succeed', async (req, res) => {
 })
 
 router.put('/:recordId', async (req, res) => {
-  const recordId = req.params.recordId
+  const { recordId } = req.params
   const options = req.body
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
 
@@ -81,9 +81,12 @@ router.put('/:recordId', async (req, res) => {
 })
 
 router.delete('/:recordId', (req, res) => {
-
+  const { recordId } = req.params
+  return Record.findById(recordId)
+    .then(record => record.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
 })
-
 
 
 // 匯出路由模組
