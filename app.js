@@ -2,31 +2,46 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const hbshelpers = require('handlebars-helpers')
 const methodOverride = require('method-override')
+const moment = require('moment')
 const multihelpers = hbshelpers()
-const routes = require('./routes') // 引用路由器
-require('./config/mongoose') // 引用資料庫
+const routes = require('./routes')
+require('./config/mongoose')
 
 const app = express()
 const port = 3000
 
-// 設定每一筆請求都會透過 methodOverride 進行前置處理
-app.use(methodOverride('_method'))
+app.engine('hbs', exphbs({
+  defaultLayout: 'main', extname: '.hbs', helpers: {
+    formDate: function (date) {
+      return moment(date).format('YYYY-MM-DD')
+    },
+    mapIcon: function (categories, target) {
+      const category = categories.find(cat => cat.category === target)
+      return category.icon
+    },
+    mapSubCategory: function (categories, target) {
+      const category = categories.find(cat => cat.category === target)
+      let optionList = ''
+      let idx = 0
+      category.subcategory.forEach(sub => {
+        optionList += `<option value="${idx}" >${sub}</option >`
+        idx += 1
+      })
+      return optionList
+    }
+  }
+}))
+app.set('view engine', 'hbs')
 
-// setting static files
+app.use(methodOverride('_method'))
 app.use(express.static('public'))
 
 app.use(express.urlencoded({
   extended: true
 }));
 
-// set template engine
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs', helpers: multihelpers }))
-app.set('view engine', 'hbs')
-
-// 將 request 導入路由器
 app.use(routes)
 
-// listening
 app.listen(port, () => {
   console.log(`App is running on http://localhost:${port}.`)
 })
