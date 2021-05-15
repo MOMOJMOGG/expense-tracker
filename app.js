@@ -27,6 +27,7 @@ app.engine('hbs', exphbs({
     },
     calcSum: function (records) {
       let sum = 0
+
       records.forEach(rec => {
         sum += rec.amount
       })

@@ -7,13 +7,28 @@ const CategoryModel = require('../../models/category')
 const category = require('../../models/category')
 
 router.get('/', async (req, res) => {
-  const records = await Record.find().lean().sort({ date: 'desc' })
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
-  res.render('index', { record: records, categories: categories })
+  const records = await Record.find().lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
+  res.render('index', { record: records, categories, init: true })
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+  const { sortType } = req.body
+  let records = []
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
 
+  if (sortType === "default") {
+    records = await Record.find().lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
+  } else {
+    const targetCategory = categories.find(cat => cat.category_en === sortType)
+    records = await Record.find({ category: targetCategory.category }).lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
+  }
+
+  if (records.length === 0) {
+    res.render('searchErr', { categories })
+  } else {
+    res.render('index', { record: records, categories, sortType })
+  }
 })
 
 // 匯出路由模組

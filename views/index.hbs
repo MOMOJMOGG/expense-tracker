@@ -1,10 +1,11 @@
 <div class="container mt-5 select-bar">
   <form action="/" method="POST" class="form-group col-8 mx-auto">
-    <select name="sort" class="form-control btn-outline-secondary" id='sortType' onchange="this.form.submit()"
+    <select name="sortType" class="form-control btn-outline-secondary" id='sortType' onchange="this.form.submit()"
       style="cursor: pointer;">
-      <option class="placeholder" value="default" selected>類別</option>
+      <option class="placeholder" value="default" {{#if init}}selected{{/if}}>類別</option>
       {{#each categories }}
-      <option value="{{this.category_en}}">{{this.category}}</option>
+      <option value="{{this.category_en}}" {{#if (match ../sortType this.category_en)}}selected{{/if}}>{{this.category}}
+      </option>
       {{/each}}
     </select>
   </form>
