@@ -5,9 +5,13 @@ const categorySchema = new Schema({
     type: String,
     required: true
   },
-  name: {
+  category: {
     type: String,
     required: true
+  },
+  category_en: {
+    type: String,
+    require: true
   },
   icon: {
     type: String,

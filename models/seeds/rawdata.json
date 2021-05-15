@@ -1,0 +1,126 @@
+{
+  "categories": [
+    {
+      "type": "支出",
+      "category": "家居物業",
+      "category_en": "house",
+      "icon": "<i class='fas fa-home fa-3x'></i>",
+      "subcategory": [
+        "日常用品",
+        "水電瓦斯費",
+        "房租房貸",
+        "通訊費",
+        "料理食材",
+        "洗衣烘衣費"
+      ]
+    },
+    {
+      "type": "支出",
+      "category": "交通出行",
+      "category_en": "traffic",
+      "icon": "<i class='fas fa-shuttle-van fa-3x'></i>",
+      "subcategory": [
+        "計程車費",
+        "客運捷運費",
+        "高鐵台鐵票",
+        "機票",
+        "租車費",
+        "加油費",
+        "住宿費",
+        "門票"
+      ]
+    },
+    {
+      "type": "支出",
+      "category": "休閒娛樂",
+      "category_en": "entertain",
+      "icon": "<i class='fas fa-grin-beam fa-3x'></i>",
+      "subcategory": [
+        "運動健身",
+        "聚餐聚會",
+        "治裝費",
+        "電影票",
+        "訂閱服務費",
+        "3C週邊"
+      ]
+    },
+    {
+      "type": "支出",
+      "category": "餐飲食品",
+      "category_en": "food",
+      "icon": "<i class='fas fa-utensils fa-3x'></i>",
+      "subcategory": [
+        "早餐",
+        "午餐",
+        "晚餐",
+        "消夜",
+        "點心",
+        "咖啡"
+      ]
+    },
+    {
+      "type": "支出",
+      "category": "其他",
+      "category_en": "others",
+      "icon": "<i class='fas fa-pen fa-3x'></i>",
+      "subcategory": [
+        "學習進修費",
+        "送禮請客",
+        "醫療保健",
+        "投資交割",
+        "借貸周轉"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "type": "支出",
+      "name": "午餐",
+      "category": "餐飲食品",
+      "subcategory": "午餐",
+      "date": "2019-04-23",
+      "amount": 60,
+      "location": "八方雲集",
+      "receipt": "AC-12345678"
+    },
+    {
+      "type": "支出",
+      "name": "晚餐",
+      "category": "餐飲食品",
+      "subcategory": "晚餐",
+      "date": "2019-04-23",
+      "amount": 60,
+      "location": "小麵店",
+      "receipt": "AC-66666666"
+    },
+    {
+      "type": "支出",
+      "name": "捷運",
+      "category": "交通出行",
+      "subcategory": "客運捷運費",
+      "date": "2019-04-23",
+      "amount": 120,
+      "location": "淡水-新店-淡水",
+      "receipt": "AC-77777777"
+    },
+    {
+      "name": "電影 : 驚奇隊長",
+      "category": "休閒娛樂",
+      "subcategory": "電影票",
+      "date": "2019-04-23",
+      "amount": 220,
+      "location": "威秀影城",
+      "receipt": "AC-02468999"
+    },
+    {
+      "type": "支出",
+      "name": "租金",
+      "category": "家居物業",
+      "subcategory": "房租房貸",
+      "date": "2019-04-01",
+      "amount": 25000,
+      "location": "",
+      "receipt": "AC-97531000"
+    }
+  ]
+}
