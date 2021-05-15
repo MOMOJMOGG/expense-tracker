@@ -2,9 +2,9 @@
   <form action="/" method="POST" class="form-group col-8 mx-auto">
     <select name="sort" class="form-control btn-outline-secondary" id='sortType' onchange="this.form.submit()"
       style="cursor: pointer;">
-      <option class="placeholder" disabled selected value="">類別</option>
+      <option class="placeholder" value="default" selected>類別</option>
       {{#each categories }}
-      <option value="{{@index}}">{{this.category}}</option>
+      <option value="{{this.category_en}}">{{this.category}}</option>
       {{/each}}
     </select>
   </form>
@@ -14,7 +14,7 @@
   <div class="col-3 d-inline text-center">
     <h2>總金額</h2>
   </div>
-  <div class="col-5 total-amount d-inline text-center">25260</div>
+  <div class="col-5 total-amount d-inline text-center">{{calcSum record}}</div>
 </div>
 
 <div class="container mt-5 mx-auto d-flex justify-content-between">
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="d-inline my-auto text-center">
-          <h2 class="amount">{{this.amount}}</h2>
+          <h2 class="amount">{{formAmount this.amount}}</h2>
         </div>
       </div>
     </a>
@@ -94,7 +94,7 @@
                 <span class="input-group-text">花費 : $</span>
               </div>
               <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
-                value="{{this.amount}}" readonly>
+                value="{{formAmount this.amount}}" readonly>
             </div>
           </li>
 

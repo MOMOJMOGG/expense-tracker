@@ -8,7 +8,6 @@
 
   <!-- link css files here -->
   <link rel="stylesheet" href="/stylesheets/bootstrap.css">
-  <link rel="stylesheet" href="/stylesheets/styles.css">
   <!-- link for chinese font -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap"
@@ -25,6 +24,9 @@
         <a class="navbar-brand" href="/">
           MO哩記帳本
         </a>
+        <form class="form-inline create-btn" action="/expense/new" method="GET">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create</button>
+        </form>
       </div>
     </nav>
   </header>

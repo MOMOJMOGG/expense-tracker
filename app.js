@@ -15,19 +15,23 @@ app.engine('hbs', exphbs({
     formDate: function (date) {
       return moment(date).format('YYYY-MM-DD')
     },
+    formAmount: function (amount) {
+      return amount.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    },
+    match: function (strA, strB) {
+      return strA === strB
+    },
     mapIcon: function (categories, target) {
       const category = categories.find(cat => cat.category === target)
       return category.icon
     },
-    mapSubCategory: function (categories, target) {
-      const category = categories.find(cat => cat.category === target)
-      let optionList = ''
-      let idx = 0
-      category.subcategory.forEach(sub => {
-        optionList += `<option value="${idx}" >${sub}</option >`
-        idx += 1
+    calcSum: function (records) {
+      let sum = 0
+      records.forEach(rec => {
+        sum += rec.amount
       })
-      return optionList
+
+      return sum.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
   }
 }))

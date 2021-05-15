@@ -11,18 +11,31 @@ router.get('/new', async (req, res) => {
   res.render('new', { categories, init: true })
 })
 
-router.post('/new/create', (req, res) => {
+router.post('/new/create', async (req, res) => {
   const newRec = req.body
-  console.log(newRec)
-  res.render('new', { newRec, option: newRec.category, suboption: newRec.subcategory })
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
+  const targetCategory = categories.find(cat => cat.category_en === newRec.category)
+  const newSubcategory = targetCategory.subcategory[Number(newRec.subcategory)]
+
+  Record.create({
+    type: targetCategory.type,
+    name: newRec.name,
+    category: targetCategory.category,
+    subcategory: newSubcategory,
+    date: newRec.date,
+    amount: newRec.amount,
+    location: newRec.location,
+    receipt: newRec.receipt
+  })
+    .then(() => res.render('new', { categories, newRec, targetCategory, newSubcategory, createSucceed: true }))
+    .catch(err => console.log(err))
 })
 
 router.get('/select/:category', async (req, res) => {
   const { category } = req.params
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
   const targetCategory = categories.find(cat => cat.category_en === category)
-  console.log(targetCategory)
-  res.render('new', { categories, targetCategory })
+  res.render('new', { categories, init: false, targetCategory })
 })
 
 router.get('/:recordId/edit', (req, res) => {

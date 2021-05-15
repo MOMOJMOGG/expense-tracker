@@ -1,0 +1,89 @@
+<div class="container mt-5 select-bar">
+  <div class="row">
+    <div class="card col-8 mx-auto">
+      <div class="card-body">
+        <h3 class="card-title my-auto text-bold">
+          編輯支出
+        </h3>
+      </div>
+      <form action="/expense/new/create" method="POST">
+        <div class="form-row">
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">項目 : </span>
+              </div>
+              <input type="text" class="form-control" name="name" id="rec-name" value="{{rec.name}}"
+                aria-label="Amount (to the nearest dollar)" required>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">分類 : </span>
+              </div>
+              <input type="text" class="form-control" name="category" id="rec-category" value="{{rec.category}}"
+                aria-label="Amount (to the nearest dollar)" required>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">子分類 : </span>
+              </div>
+              <input type="text" class="form-control" name="subcategory" id="rec-subcategory"
+                value="{{rec.subcategory}}" aria-label="Amount (to the nearest dollar)" required>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">日期 : </span>
+              </div>
+              <input type="text" class="form-control" name="date" id="rec-date" value="{{rec.date}}"
+                aria-label="Amount (to the nearest dollar)" required>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">地點 : </span>
+                </div>
+                <input type="text" class="form-control" name="location" id="rec-location" value="{{rec.location}}"
+                  aria-label="Amount (to the nearest dollar)">
+              </div>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">花費 : $</span>
+              </div>
+              <input type="text" class="form-control" name="amount" id="rec-amount" value="{{rec.amount}}"
+                aria-label="Amount (to the nearest dollar)" required>
+            </div>
+          </div>
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">發票 : </span>
+              </div>
+              <input type="text" class="form-control" name="receipt" id="rec-receipt" value="{{rec.receipt}}"
+                aria-label="Amount (to the nearest dollar)">
+            </div>
+          </div>
+          <div class="card-body d-flex justify-content-center">
+            <button class="btn btn-success" type="submit">Update</button>
+          </div>
+        </div>
+      </form>
+      <!-- Add Succeed display -->
+      {{#if createSucceed}}
+      <div class="alert alert-info" role="alert">
+        <span class="mr-2">Update Record: </span> <code>Succeed!</code>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
