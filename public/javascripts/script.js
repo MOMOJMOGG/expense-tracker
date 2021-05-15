@@ -1,12 +1,16 @@
 const recCategory = document.getElementById('rec-category')
 
 if (recCategory != null) {
-  recCategory.addEventListener('change', event => {
-    const selectedTarget = event.target.value
-    console.log('ss')
-    const selector = document.getElementById('category-selector')
-    selector.action = `/expense/select/${selectedTarget}`
-    selector.method = "GET"
-    selector.submit()
+  $('#rec-category').change(function () {
+    const id = $(this).val()
+    const options = $('#rec-subcategory').children()
+    options.each(function (idx, option) {
+      if (option.dataset.name === id) {
+        option.removeAttribute("hidden")
+      } else {
+        option.setAttribute("hidden", "")
+      }
+    })
+    $('#rec-subcategory').html(options)
   })
 }

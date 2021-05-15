@@ -7,44 +7,40 @@ const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
 
 router.get('/new', async (req, res) => {
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
-  res.render('new', { categories, init: true })
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => {
+    return categories
+  }).catch(err => console.log(err))
+  res.render('new', { categories, init: true, subInit: true })
 })
 
 router.post('/new/create', async (req, res) => {
   const newRec = req.body
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
-  const targetCategory = categories.find(cat => cat.category_en === newRec.category)
-  const newSubcategory = targetCategory.subcategory[Number(newRec.subcategory)]
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
+  const cateTarget = categories.find(cat => cat.category_en === newRec.category)
+  const chosenSubCategory = cateTarget.subcategory[Number(newRec.subcategory)]
 
   Record.create({
-    type: targetCategory.type,
+    type: cateTarget.type,
     name: newRec.name,
-    category: targetCategory.category,
-    subcategory: newSubcategory,
+    category: cateTarget.category,
+    subcategory: chosenSubCategory,
     date: newRec.date,
     amount: newRec.amount,
     location: newRec.location,
     receipt: newRec.receipt
   })
-    .then(() => res.render('new', { categories, newRec, targetCategory, newSubcategory, createSucceed: true }))
+    .then(() => res.render('new', { categories, newRec, chosenCategory: cateTarget.category, chosenSubCategory, createSucceed: true }))
     .catch(err => console.log(err))
 })
 
-router.get('/select/:category', async (req, res) => {
-  const { category } = req.params
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' })
-  const targetCategory = categories.find(cat => cat.category_en === category)
-  res.render('new', { categories, init: false, targetCategory })
-})
-
-router.get('/:recordId/edit', (req, res) => {
+router.get('/:recordId/edit', async (req, res) => {
   const recordId = req.params.recordId
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
   Record.findById(recordId)
     .lean()
     .then(rec => {
       rec.date = moment(rec.date).format('YYYY-MM-DD')
-      res.render('edit', { rec })
+      res.render('edit', { categories, record })
     })
     .catch(err => console.log(err))
 })

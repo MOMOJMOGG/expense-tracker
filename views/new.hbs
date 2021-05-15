@@ -9,6 +9,16 @@
       </div>
       <form action="/expense/new/create" method="POST">
 
+        <div class="form-group w-100">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">項目* : </span>
+            </div>
+            <input type="text" class="form-control" name="name" id="rec-name" value="{{newRec.name}}"
+              aria-label="Amount (to the nearest dollar)" required {{#if createSucceed}}disabled{{/if}}>
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-group w-100">
             <div class="input-group">
@@ -17,10 +27,10 @@
               </div>
               <select name="category" class="form-control btn-outline-secondary" id='rec-category'
                 style="cursor: pointer;" {{#if createSucceed}}disabled{{/if}}>
-                <option class="placeholder" disabled {{#if init}}selected{{/if}} hidden>類別</option>
+                <option id="cat-default" class="placeholder" disabled {{#if init}}selected{{/if}} hidden>類別</option>
                 {{#each categories }}
-                <option value="{{this.category_en}}" {{#if (match ../targetCategory.category
-                  this.category)}}selected{{/if}}>{{this.category}}</option>
+                <option value="{{this.category_en}}" {{#if (match ../chosenCategory this.category)}}selected{{/if}}>
+                  {{this.category}}</option>
                 {{/each}}
               </select>
             </div>
@@ -33,21 +43,15 @@
               </div>
               <select name="subcategory" class="form-control btn-outline-secondary" id='rec-subcategory'
                 style="cursor: pointer;" {{#if createSucceed}}disabled{{/if}}>
-                <option class="placeholder" disabled selected hidden>子類別</option>
-                {{#each targetCategory.subcategory}}
-                <option value="{{@index}}" {{#if (match ../newSubcategory this)}}selected{{/if}}>{{this}}</option>
+                <option id="sub-default" class="placeholder" disabled {{#if subInit}}selected{{/if}} hidden>子類別</option>
+                {{#each categories}}
+                {{#each this.subcategory}}
+                <option data-name="{{../this.category_en}}" value="{{@index}}" {{#if (match ../../chosenSubCategory
+                  this)}}selected{{/if}} hidden>
+                  {{this}}</option>
+                {{/each}}
                 {{/each}}
               </select>
-            </div>
-          </div>
-
-          <div class="form-group w-100">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">項目* : </span>
-              </div>
-              <input type="text" class="form-control" name="name" id="rec-name" value="{{newRec.name}}"
-                aria-label="Amount (to the nearest dollar)" required {{#if createSucceed}}disabled{{/if}}>
             </div>
           </div>
 
