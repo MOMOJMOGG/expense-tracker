@@ -5,7 +5,6 @@ const methodOverride = require('method-override')
 const moment = require('moment')
 const multihelpers = hbshelpers()
 const routes = require('./routes')
-require('./config/mongoose')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -38,8 +37,9 @@ app.engine('hbs', exphbs({
     }
   }
 }))
-
 app.set('view engine', 'hbs')
+
+require('./config/mongoose')
 
 app.use(methodOverride('_method'))
 app.use(express.static('public'))

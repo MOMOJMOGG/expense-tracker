@@ -4,7 +4,7 @@ header {
 
 body {
   font-family: 'Noto Sans TC', Arial, "Helvetica Neue", Helvetica, sans-serif;
-  background-color: rgb(225, 247, 255);
+  background-color: rgb(200, 253, 255);
 }
 
 .total-amount {
@@ -50,18 +50,22 @@ body {
   color:rgb(212, 192, 74);
 }
 
+.collapse {
+  border: 1px solid rgb(41, 41, 41);
+}
+
 .collapse .card-header {
   background-color: #759fe4;
   color:white;
 }
 
 .collapse .card-body {
-  background-color: #dbf5fdee;
+  background-color: rgb(225, 247, 255);
   color: rgb(47, 116, 219);
 }
 
 .collapse .detail > .list-group-item {
-  background-color: #dbf5fdee;
+  background-color: rgb(225, 247, 255);
 }
 
 .collapse .detail > .input-group-prepend .form-control {
