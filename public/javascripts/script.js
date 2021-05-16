@@ -1,6 +1,6 @@
 const recCategory = document.getElementById('rec-category')
 
-if (recCategory != null) {
+if (recCategory !== null) {
   $('#rec-category').change(function () {
     const id = $(this).val()
     const options = $('#rec-subcategory').children()
@@ -17,7 +17,7 @@ if (recCategory != null) {
 
 const tape = document.querySelector('.tape')
 
-if (tape != null) {
+if (tape !== null) {
   tape.addEventListener('click', event => {
     if (event.target.classList.contains('del-btn')) {
       const targetId = event.target.dataset.id
@@ -25,6 +25,41 @@ if (tape != null) {
       $('#del-btn-link').attr("action", `/expense/${targetId}?_method=DELETE`)
       $('#del-btn-link').attr("method", "POST")
       $('#deleteWarningModal').modal('show')
+    }
+  })
+}
+
+const newForm = document.querySelector('.new-form')
+const createBtn = document.getElementById('create-btn')
+if (newForm !== null) {
+  if (createBtn !== null) {
+    createBtn.addEventListener('click', function onCreateBtnClicked(event) {
+      newForm.classList.add('was-validated')
+    })
+  }
+
+  newForm.addEventListener('submit', function onFormSubmit(event) {
+    if (!newForm.checkValidity()) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+  })
+}
+
+const editForm = document.querySelector('.edit-form')
+const editBtn = document.getElementById('edit-btn')
+
+if (editForm !== null) {
+  if (editBtn !== null) {
+    editBtn.addEventListener('click', function onEditBtnClicked(event) {
+      editForm.classList.add('was-validated')
+    })
+  }
+
+  editForm.addEventListener('submit', function onFormSubmit(event) {
+    if (!editForm.checkValidity()) {
+      event.preventDefault()
+      event.stopPropagation()
     }
   })
 }

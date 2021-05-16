@@ -4,11 +4,11 @@ const router = express.Router()
 // 引用 Todo model
 const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
-const category = require('../../models/category')
 
 router.get('/', async (req, res) => {
   const records = await Record.find().lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
+
   res.render('index', { record: records, categories, init: true })
 })
 

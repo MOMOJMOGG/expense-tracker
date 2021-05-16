@@ -27,15 +27,18 @@ app.engine('hbs', exphbs({
     },
     calcSum: function (records) {
       let sum = 0
-
-      records.forEach(rec => {
-        sum += rec.amount
-      })
-
-      return sum.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      if (records.length === 0) {
+        return sum
+      } else {
+        records.forEach(rec => {
+          sum += rec.amount
+        })
+        return sum.toString().replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      }
     }
   }
 }))
+
 app.set('view engine', 'hbs')
 
 app.use(methodOverride('_method'))

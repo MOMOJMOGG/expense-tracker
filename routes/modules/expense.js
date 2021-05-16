@@ -5,32 +5,42 @@ const moment = require('moment')
 // 引用 Todo model
 const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
+const checkValid = require('../../public/javascripts/checkValid')
 
 router.get('/new', async (req, res) => {
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => {
     return categories
   }).catch(err => console.log(err))
-  res.render('new', { categories, init: true, subInit: true })
+  const validate = checkValid('Initial')
+
+  res.render('new', { categories, validate, init: true, subInit: true })
 })
 
 router.post('/new/create', async (req, res) => {
   const newRec = req.body
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
-  const cateTarget = categories.find(cat => cat.category_en === newRec.category)
-  const chosenSubCategory = cateTarget.subcategory[Number(newRec.subcategory)]
+  const validate = checkValid(newRec)
 
-  Record.create({
-    type: cateTarget.type,
-    name: newRec.name,
-    category: cateTarget.category,
-    subcategory: chosenSubCategory,
-    date: newRec.date,
-    amount: newRec.amount,
-    location: newRec.location,
-    receipt: newRec.receipt
-  })
-    .then(() => res.render('new', { categories, newRec, chosenCategory: cateTarget.category, chosenSubCategory, createSucceed: true }))
-    .catch(err => console.log(err))
+  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
+
+  if (validate.err === 0) {
+    const cateTarget = categories.find(cat => cat.category_en === newRec.category)
+    const chosenSubCategory = cateTarget.subcategory[Number(newRec.subcategory)]
+
+    Record.create({
+      type: cateTarget.type,
+      name: newRec.name,
+      category: cateTarget.category,
+      subcategory: chosenSubCategory,
+      date: newRec.date,
+      amount: newRec.amount,
+      location: newRec.location,
+      receipt: newRec.receipt
+    })
+      .then(() => res.render('new', { categories, newRec, chosenCategory: cateTarget.category, chosenSubCategory, createSucceed: true }))
+      .catch(err => console.log(err))
+  } else {
+    res.render('new', { categories, newRec, validate, init: true, subInit: true })
+  }
 })
 
 router.get('/:recordId/edit', async (req, res) => {
@@ -40,7 +50,8 @@ router.get('/:recordId/edit', async (req, res) => {
     .lean()
     .then(record => {
       record.date = moment(record.date).format('YYYY-MM-DD')
-      res.render('edit', { categories, record })
+      const validate = checkValid(record)
+      res.render('edit', { categories, record, validate })
     })
     .catch(err => console.log(err))
 })
@@ -52,7 +63,8 @@ router.get('/:recordId/edit/succeed', async (req, res) => {
     .lean()
     .then(record => {
       record.date = moment(record.date).format('YYYY-MM-DD')
-      res.render('edit', { categories, record, editSucceed: true })
+      const validate = checkValid('Initial')
+      res.render('edit', { categories, record, editSucceed: true, validate })
     })
     .catch(err => console.log(err))
 })
@@ -60,24 +72,30 @@ router.get('/:recordId/edit/succeed', async (req, res) => {
 router.put('/:recordId', async (req, res) => {
   const { recordId } = req.params
   const options = req.body
+  const validate = checkValid(options)
+
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
 
-  return Record.findById(recordId)
-    .then(record => {
-      record.type = options.type
-      record.name = options.name
-      record.date = options.date
-      record.amount = options.amount
-      record.location = options.location
-      record.receipt = options.receipt
+  if (validate.err === 0) {
+    return Record.findById(recordId)
+      .then(record => {
+        record.type = options.type
+        record.name = options.name
+        record.date = options.date
+        record.amount = options.amount
+        record.location = options.location
+        record.receipt = options.receipt
 
-      const cateTarget = categories.find(cat => cat.category_en === options.category)
-      record.category = cateTarget.category
-      record.subcategory = cateTarget.subcategory[Number(options.subcategory)]
-      return record.save()
-    })
-    .then(() => res.redirect(`/expense/${recordId}/edit/succeed`))
-    .catch(err => console.log(err))
+        const cateTarget = categories.find(cat => cat.category_en === options.category)
+        record.category = cateTarget.category
+        record.subcategory = cateTarget.subcategory[Number(options.subcategory)]
+        return record.save()
+      })
+      .then(() => res.redirect(`/expense/${recordId}/edit/succeed`))
+      .catch(err => console.log(err))
+  } else {
+    res.redirect(`/expense/${recordId}/edit`)
+  }
 })
 
 router.delete('/:recordId', (req, res) => {

@@ -11,7 +11,7 @@
   </form>
 </div>
 
-<div class="price-zone container mt-5 mx-auto col-8 px-4 d-flex justify-content-between">
+<div class="price-zone container mt-5 mx-auto col-8 px-4 py-2 d-flex justify-content-between">
   <div class="w-30 text-center mt-2" style="color: white;">
     <h2>總金額</h2>
   </div>
@@ -20,8 +20,8 @@
 
 <div class="container mt-5 mx-auto d-flex justify-content-between">
   <div class="list-group col-8 mx-auto tape">
-    {{#each record}}
 
+    {{#each record}}
     <a class="reset-link" data-toggle="collapse" href="#collapse{{this._id}}" aria-expanded="false"
       aria-controls="collapseDetails">
       <div class="list-group-item d-flex justify-content-between w-100">
@@ -43,12 +43,12 @@
         <div class="card-header">
           {{this.type}}明細
         </div>
-
+        {{!-- name --}}
         <div class="card-body">
           <h3 class="card-title my-auto text-bold">{{this.name}}</h3>
         </div>
         <ul class="list-group list-group-flush detail">
-
+          {{!-- category --}}
           <li class="list-group-item">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -58,7 +58,7 @@
                 value="{{this.category}}" readonly>
             </div>
           </li>
-
+          {{!-- subcategory --}}
           <li class="list-group-item">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -68,7 +68,7 @@
                 value="{{this.subcategory}}" readonly>
             </div>
           </li>
-
+          {{!-- date --}}
           <li class="list-group-item">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -78,7 +78,7 @@
                 value="{{formDate this.date}}" readonly>
             </div>
           </li>
-
+          {{!-- location --}}
           <li class="list-group-item">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -88,7 +88,7 @@
                 value="{{this.location}}" readonly>
             </div>
           </li>
-
+          {{!-- amount --}}
           <li class="list-group-item">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -98,7 +98,7 @@
                 value="{{formAmount this.amount}}" readonly>
             </div>
           </li>
-
+          {{!-- receipt --}}
           <li class="list-group-item">
             <div class="input-group">
               <div class="input-group-prepend">
@@ -109,8 +109,9 @@
             </div>
           </li>
         </ul>
-
+        {{!-- card footer --}}
         <div class="card-body d-flex justify-content-end">
+          {{!-- edit icon --}}
           <a class="btn btn-success mr-3" href="/expense/{{ this._id }}/edit">Edit <i class="fas fa-edit"></i></a>
           <!-- delete icon -->
           <button class="del-btn btn btn-danger btn-sm" type="button" data-id="{{this._id}}">Delete

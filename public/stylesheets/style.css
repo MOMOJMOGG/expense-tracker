@@ -18,6 +18,7 @@ body {
 
 .price-zone {
   background-color: #996866;
+  max-width: 920px;
 }
 
 .reset-link {
@@ -66,3 +67,23 @@ body {
 .collapse .detail > .input-group-prepend .form-control {
   background-color: white;
 }
+
+.invalid-feedback {
+  display: none;
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+/* .valid-feedback {
+  color: green;
+} */
+
+form.was-validated .form-control:invalid ~ .invalid-feedback {
+  display: initial;
+}
+
+/* form.was-validated .form-control:valid ~ .valid-feedback{
+  display: initial;
+} */
