@@ -1,6 +1,6 @@
 <div class="container mt-5 select-bar">
   <form action="/" method="POST" class="form-group col-8 mx-auto">
-    <select name="sortType" class="form-control btn-outline-secondary" id='sortType' onchange="this.form.submit()"
+    <select name="sortType" class="form-control btn-outline-primary" id='sortType' onchange="this.form.submit()"
       style="cursor: pointer;">
       <option class="placeholder" value="default" {{#if init}}selected{{/if}}>類別</option>
       {{#each categories }}
@@ -11,11 +11,11 @@
   </form>
 </div>
 
-<div class="container mt-5 mx-auto d-flex justify-content-around">
-  <div class="col-3 d-inline text-center">
+<div class="price-zone container mt-5 mx-auto col-8 px-4 d-flex justify-content-between">
+  <div class="w-30 text-center mt-2" style="color: white;">
     <h2>總金額</h2>
   </div>
-  <div class="col-5 total-amount d-inline text-center">{{calcSum record}}</div>
+  <div class="w-70 total-amount text-center">$ {{calcSum record}} NT</div>
 </div>
 
 <div class="container mt-5 mx-auto d-flex justify-content-between">
@@ -47,7 +47,7 @@
         <div class="card-body">
           <h3 class="card-title my-auto text-bold">{{this.name}}</h3>
         </div>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush detail">
 
           <li class="list-group-item">
             <div class="input-group">
@@ -138,9 +138,9 @@
         <h2 class="text-white">你確定要刪除嗎!?</h2>
       </div>
       <div class="modal-footer bg-dark" style="border-top: 1px dashed gray;">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Give Up</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Give Up <i class="fas fa-undo"></i></button>
         <form id="del-btn-link" action="/" method="GET" class="d-inline"><button type="submit"
-            class="btn btn-danger">Delete</button></form>
+            class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></button></form>
       </div>
     </div>
   </div>

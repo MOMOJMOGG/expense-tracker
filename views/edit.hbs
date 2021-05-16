@@ -98,8 +98,9 @@
             <!-- delete icon -->
             <button class="del-btn btn btn-danger btn-sm mr-3" type="button" data-id="{{record._id}}">Delete
               <i class="fas fa-trash-alt"></i></button>
-            <a href="/"><button class="btn btn btn-outline-primary mr-3" type="button">Back to Home Page</button></a>
-            <button class="btn btn-success" type="submit">Update</button>
+            <a href="/"><button class="btn btn btn-outline-primary mr-3" type="button">Back to Home Page <i
+                  class="fas fa-undo"></i></button></a>
+            <button class="btn btn-success" type="submit">Update <i class="fas fa-edit"></i></button>
           </div>
 
         </div>
@@ -130,9 +131,9 @@
         <h2 class="text-white">你確定要刪除嗎!?</h2>
       </div>
       <div class="modal-footer bg-dark" style="border-top: 1px dashed gray;">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Give Up</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Give Up <i class="fas fa-undo"></i></button>
         <form id="del-btn-link" action="/" method="GET" class="d-inline"><button type="submit"
-            class="btn btn-danger">Delete</button></form>
+            class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></button></form>
       </div>
     </div>
   </div>

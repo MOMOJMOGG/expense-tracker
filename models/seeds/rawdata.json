@@ -121,6 +121,16 @@
       "amount": 25000,
       "location": "",
       "receipt": "AC-97531000"
+    },
+    {
+      "type": "支出",
+      "name": "AC-學期三",
+      "category": "其他",
+      "subcategory": "學習進修費",
+      "date": "2021-05-10",
+      "amount": 34000,
+      "location": "",
+      "receipt": "AC-36996388"
     }
   ]
 }

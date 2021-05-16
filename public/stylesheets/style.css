@@ -1,14 +1,23 @@
-.body {
+header {
+  overflow: hidden;
+}
 
+body {
+  font-family: 'Noto Sans TC', Arial, "Helvetica Neue", Helvetica, sans-serif;
+  background-color: rgb(225, 247, 255);
 }
 
 .total-amount {
   font-size: 72px;
-  color: rgb(238, 172, 50);
+  color: gold;
 }
 
 .amount {
   font-size: 36px;
+}
+
+.price-zone {
+  background-color: #996866;
 }
 
 .reset-link {
@@ -18,4 +27,42 @@
 .reset-link:link {
   color: inherit;
   text-decoration: none;
+}
+
+.fa-home {
+  color: rgb(247, 170, 183);
+}
+
+.fa-shuttle-van {
+  color: rgb(243, 151, 13);
+}
+
+.fa-grin-beam {
+  color: rgb(203, 121, 206);
+}
+
+.fa-utensils {
+  color:rgb(223, 88, 88);
+}
+
+.fa-pen {
+  color:rgb(212, 192, 74);
+}
+
+.collapse .card-header {
+  background-color: #759fe4;
+  color:white;
+}
+
+.collapse .card-body {
+  background-color: #dbf5fdee;
+  color: rgb(47, 116, 219);
+}
+
+.collapse .detail > .list-group-item {
+  background-color: #dbf5fdee;
+}
+
+.collapse .detail > .input-group-prepend .form-control {
+  background-color: white;
 }
