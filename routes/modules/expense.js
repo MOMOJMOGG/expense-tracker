@@ -6,6 +6,7 @@ const moment = require('moment')
 const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
 const checkValid = require('../../public/javascripts/checkValid')
+const redirectEditSucceed = require('../../middleware/redirectEditSucceed')
 
 router.get('/new', async (req, res) => {
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => {
@@ -16,7 +17,7 @@ router.get('/new', async (req, res) => {
   res.render('new', { categories, validate, init: true, subInit: true })
 })
 
-router.post('/new/create', async (req, res) => {
+router.post('/new', async (req, res) => {
   const newRec = req.body
   const validate = checkValid(newRec)
 
@@ -36,7 +37,7 @@ router.post('/new/create', async (req, res) => {
       location: newRec.location,
       receipt: newRec.receipt
     })
-      .then(() => res.render('new', { categories, newRec, chosenCategory: cateTarget.category, chosenSubCategory, createSucceed: true }))
+      .then(() => res.render('new', { categories, newRec, chosenCategory: cateTarget.category, chosenSubCategory, validate, createSucceed: true }))
       .catch(err => console.log(err))
   } else {
     res.render('new', { categories, newRec, validate, init: true, subInit: true })
@@ -45,29 +46,24 @@ router.post('/new/create', async (req, res) => {
 
 router.get('/:recordId/edit', async (req, res) => {
   const { recordId } = req.params
+  let { succeed } = req.query
+  if (typeof (succeed) === "undefined") {
+    succeed = false
+  } else {
+    succeed = succeed === "true"
+  }
+
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
   Record.findById(recordId)
     .lean()
     .then(record => {
       record.date = moment(record.date).format('YYYY-MM-DD')
       const validate = checkValid(record)
-      res.render('edit', { categories, record, validate })
+      res.render('edit', { categories, record, validate, editSucceed: succeed })
     })
     .catch(err => console.log(err))
 })
 
-router.get('/:recordId/edit/succeed', async (req, res) => {
-  const { recordId } = req.params
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
-  Record.findById(recordId)
-    .lean()
-    .then(record => {
-      record.date = moment(record.date).format('YYYY-MM-DD')
-      const validate = checkValid('Initial')
-      res.render('edit', { categories, record, editSucceed: true, validate })
-    })
-    .catch(err => console.log(err))
-})
 
 router.put('/:recordId', async (req, res) => {
   const { recordId } = req.params
@@ -91,10 +87,12 @@ router.put('/:recordId', async (req, res) => {
         record.subcategory = cateTarget.subcategory[Number(options.subcategory)]
         return record.save()
       })
-      .then(() => res.redirect(`/expense/${recordId}/edit/succeed`))
+      .then(() => {
+        res.redirect(`/expense/${recordId}/edit?succeed=true`)
+      })
       .catch(err => console.log(err))
   } else {
-    res.redirect(`/expense/${recordId}/edit`)
+    res.redirect(`/expense/${recordId}/edit?succeed=false`)
   }
 })
 

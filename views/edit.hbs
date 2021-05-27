@@ -152,11 +152,11 @@
         </div>
       </form>
       <!-- Succeed display -->
-      {{#if editSucceed}}
-      <div class="alert alert-info" role="alert">
-        <span class="mr-2">Update Record: </span> <code>Succeed!</code>
+
+      <div class="alert alert-info" role="alert" {{#if editSucceed}}{{else}}style="display:none" {{/if}}>
+        <span class="mr-2">Update Record: </span> <code>{{#if editSucceed}}Succeed!{{else}}Fail!{{/if}}</code>
       </div>
-      {{/if}}
+
     </div>
   </div>
 </div>

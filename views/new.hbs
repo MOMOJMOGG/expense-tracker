@@ -7,7 +7,7 @@
         </h3>
         <h5 style="color: red;">* : 為必填選項</h5>
       </div>
-      <form novalidate class="new-form" action="/expense/new/create" method="POST">
+      <form novalidate class="new-form" action="/expense/new" method="POST">
         {{!-- name --}}
         <div class="form-group w-100">
           <div class="input-group">
@@ -147,7 +147,7 @@
             <a href="/"><button class="btn btn btn-outline-primary mr-3" type="button">Back to Home Page <i
                   class="fas fa-undo"></i></button></a>
             {{!-- create icon --}}
-            <button id="create-btn" class="btn btn-success" type="submit">Create <i
+            <button id="create-btn" class="btn btn-success" type="submit" {{#if createSucceed}}disabled{{/if}}>Create <i
                 class="fas fa-plus-circle"></i></button>
           </div>
         </div>
