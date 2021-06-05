@@ -1,7 +1,11 @@
 <div class="container mt-5 select-bar">
-  <form action="/" method="POST" class="form-group col-8 mx-auto">
-    <select name="sortType" class="form-control btn-outline-primary" id='sortType' onchange="this.form.submit()"
-      style="cursor: pointer;">
+  <form action="/" method="POST" class="form-group col-8 mx-auto d-flex">
+    {{!-- month --}}
+    <input type="month" id="month" class="d-inline-block w-50 mr-1" name="month" min="2020-01" max="2021-12"
+      value="2021-06">
+    {{!-- category --}}
+    <select name="sortType" class="form-control btn-outline-primary d-inline-block w-50 ml-1" id='sortType'
+      onchange="this.form.submit()" style="cursor: pointer;">
       <option class="placeholder" value="default" {{#if init}}selected{{/if}}>類別</option>
       {{#each categories }}
       <option value="{{this.category_en}}" {{#if (match ../sortType this.category_en)}}selected{{/if}}>{{this.category}}
@@ -87,6 +91,16 @@
               </div>
               <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
                 value="{{this.location}}" readonly>
+            </div>
+          </li>
+          {{!-- merchant --}}
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">店家 : </span>
+              </div>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"
+                value="{{this.merchant}}" readonly>
             </div>
           </li>
           {{!-- amount --}}

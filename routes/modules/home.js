@@ -6,10 +6,13 @@ const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
 
 router.get('/', async (req, res) => {
-  const records = await Record.find().lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
-
-  res.render('index', { record: records, categories, init: true })
+  try {
+    const records = await Record.find().lean().sort({ date: 'desc' }).exec()
+    const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).exec()
+    res.render('index', { record: records, categories, init: true })
+  } catch (err) {
+    return console.warn(err)
+  }
 })
 
 router.post('/', async (req, res) => {
