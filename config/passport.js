@@ -14,11 +14,11 @@ module.exports = app => {
     try {
       const user = await User.findOne({ email })
       if (!user) {
-        return done(null, false, req.flash('errors', { message: 'That email is not registered!' }))
+        return done(null, false, req.flash('errors', { message: '此信箱尚未註冊，請註冊一組帳號!' }))
       }
       const isMatch = await bcrypt.compare(password, user.password)
       if (!isMatch) {
-        return done(null, false, req.flash('errors', { message: 'Email or Password incorrect.' }))
+        return done(null, false, req.flash('errors', { message: '帳號或密碼錯誤，請重新輸入!' }))
       }
 
       return done(null, user)
@@ -36,14 +36,14 @@ module.exports = app => {
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const { name, email } = profile._json
-      let user = User.findOne({ email })
+      let user = await User.findOne({ email })
       if (user) {
         return done(null, user)
       }
 
       const randomPassword = Math.random().toString(36).slice(-8) // 隨機產生 0~1小數 | 36: 26英文字母 + 10 數字總數 | 擷取最後8碼
-      const salt = bcrypt.genSalt(10)
-      const hash = bcrypt.hash(randomPassword, salt)
+      const salt = await bcrypt.genSalt(10)
+      const hash = await bcrypt.hash(randomPassword, salt)
       user = await User.create({ name, email, password: hash })
       if (user) {
         return done(null, user)

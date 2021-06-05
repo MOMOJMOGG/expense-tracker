@@ -16,6 +16,13 @@ const PORT = process.env.PORT
 
 app.engine('hbs', exphbs({
   defaultLayout: 'main', extname: '.hbs', helpers: {
+    checkEmpty: (str) => {
+      if (str === '') {
+        return '你'
+      } else {
+        return str
+      }
+    },
     formDate: function (date) {
       return moment(date).format('YYYY-MM-DD')
     },
