@@ -22,9 +22,12 @@
   <div class="w-70 total-amount text-center">$ {{calcSum record}} NT</div>
 </div>
 
+<div class="container mt-5 col-8 mx-auto">
+  {{> message}}
+</div>
+
 <div class="container mt-5 mx-auto d-flex justify-content-between">
   <div class="list-group col-8 mx-auto tape">
-
     {{#each record}}
     <a class="reset-link" data-toggle="collapse" href="#collapse{{this._id}}" aria-expanded="false"
       aria-controls="collapseDetails">

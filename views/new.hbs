@@ -110,6 +110,22 @@
               </div>
             </div>
           </div>
+          {{!-- merchant --}}
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">店家 : </span>
+                </div>
+                <input type="text" class="form-control {{#unless validate.merchantIsValid}}is-invalid{{/unless}}"
+                  name="merchant" id="rec-merchant" value="{{newRec.merchant}}"
+                  aria-label="Amount (to the nearest dollar)" {{#if createSucceed}}disabled{{/if}}>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+            </div>
+          </div>
           {{!-- amount --}}
           <div class="form-group w-100">
             <div class="input-group">

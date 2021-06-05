@@ -7,6 +7,9 @@
         </h3>
         <h5 style="color: red;">* : 為必填選項</h5>
       </div>
+      <div class="w-100">
+        {{> message}}
+      </div>
       <form novalidate action="/expense/{{record._id}}?_method=PUT" method="POST" class="tape edit-form">
         {{!-- name --}}
         <div class="form-group w-100">
@@ -14,14 +17,8 @@
             <div class="input-group-prepend">
               <span class="input-group-text">項目* : </span>
             </div>
-            <input type="text" class="form-control {{#unless validate.nameIsValid}}is-invalid{{/unless}}" name="name"
-              id="rec-name" value="{{record.name}}" aria-label="Amount (to the nearest dollar)" required>
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-            <div class="invalid-feedback">
-              Please enter a record name.
-            </div>
+            <input type="text" class="form-control" name="name" id="rec-name" value="{{record.name}}"
+              aria-label="Amount (to the nearest dollar)" required>
           </div>
         </div>
         {{!-- category --}}
@@ -31,21 +28,14 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">分類* : </span>
               </div>
-              <select name="category"
-                class="form-control {{#unless validate.categoryIsValid}} is-invalid{{/unless}} btn-outline-secondary"
-                id='rec-category' style="cursor: pointer;">
+              <select name="category" class="form-control btn-outline-secondary" id='rec-category'
+                style="cursor: pointer;" required>
                 <option id="cat-default" class="placeholder" disabled {{#if init}}selected{{/if}} hidden>類別</option>
                 {{#each categories }}
                 <option value="{{this.category_en}}" {{#if (match ../record.category this.category)}}selected{{/if}}>
                   {{this.category}}</option>
                 {{/each}}
               </select>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please choose a category.
-              </div>
             </div>
           </div>
           {{!-- subcategory --}}
@@ -54,24 +44,17 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">子分類* : </span>
               </div>
-              <select name="subcategory"
-                class="form-control {{#unless validate.subcategoryIsValid}}is-invalid{{/unless}} btn-outline-secondary"
-                id='rec-subcategory' style="cursor: pointer;">
+              <select name="subcategory" class="form-control btn-outline-secondary" id='rec-subcategory'
+                style="cursor: pointer;" required>
                 <option id="sub-default" class="placeholder" disabled {{#if subInit}}selected{{/if}} hidden>子類別</option>
                 {{#each categories}}
                 {{#each this.subcategory}}
                 <option data-name="{{../this.category_en}}" value="{{@index}}" {{#if (match ../../record.subcategory
-                  this)}}selected{{/if}} hidden>
+                  this)}}selected{{/if}} {{#if (match ../../category_en ../this.category_en)}}{{else}}hidden{{/if}}>
                   {{this}}</option>
                 {{/each}}
                 {{/each}}
               </select>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please choose a subcategory.
-              </div>
             </div>
           </div>
           {{!-- date --}}
@@ -80,15 +63,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">日期* : </span>
               </div>
-              <input type="date" class="form-control {{#unless validate.dateIsValid}}is-invalid{{/unless}}" name="date"
-                id="rec-date" min="2019-01-01" value="{{record.date}}" aria-label="Amount (to the nearest dollar)"
-                required>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please choose a date.
-              </div>
+              <input type="date" class="form-control" name="date" id="rec-date" min="2019-01-01" value="{{record.date}}"
+                aria-label="Amount (to the nearest dollar)" required>
             </div>
           </div>
           {{!-- location --}}
@@ -98,12 +74,20 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text">地點 : </span>
                 </div>
-                <input type="text" class="form-control {{#unless validate.locationIsValid}}is-invalid{{/unless}}"
-                  name="location" id="rec-location" value="{{record.location}}"
+                <input type="text" class="form-control" name="location" id="rec-location" value="{{record.location}}"
                   aria-label="Amount (to the nearest dollar)">
-                <div class="valid-feedback">
-                  Looks good!
+              </div>
+            </div>
+          </div>
+          {{!-- merchant --}}
+          <div class="form-group w-100">
+            <div class="input-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">店家 : </span>
                 </div>
+                <input type="text" class="form-control" name="merchant" id="rec-merchant" value="{{record.merchant}}"
+                  aria-label="Amount (to the nearest dollar)">
               </div>
             </div>
           </div>
@@ -113,15 +97,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">花費* : $</span>
               </div>
-              <input type="number" class="form-control {{#unless validate.amountIsValid}}is-invalid{{/unless}}"
-                name="amount" id="rec-amount" value="{{record.amount}}" aria-label="Amount (to the nearest dollar)"
-                required>
-              <div class="valid-feedback">
-                Looks good!
-              </div>
-              <div class="invalid-feedback">
-                Please enter a cost.
-              </div>
+              <input type="number" class="form-control" name="amount" id="rec-amount" value="{{record.amount}}"
+                aria-label="Amount (to the nearest dollar)" required>
             </div>
           </div>
           {{!-- receipt --}}
@@ -130,11 +107,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">發票 : </span>
               </div>
-              <input type="text" class="form-control {{#unless validate.receiptIsValid}}is-invalid{{/unless}}"
-                name="receipt" id="rec-receipt" value="{{record.receipt}}" aria-label="Amount (to the nearest dollar)">
-              <div class="valid-feedback">
-                Looks good!
-              </div>
+              <input type="text" class="form-control" name="receipt" id="rec-receipt" value="{{record.receipt}}"
+                aria-label="Amount (to the nearest dollar)">
             </div>
           </div>
           {{!-- card footer --}}

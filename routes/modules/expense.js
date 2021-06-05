@@ -5,8 +5,8 @@ const moment = require('moment')
 // 引用 Todo model
 const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
-const checkValid = require('../../public/javascripts/checkValid')
-const redirectEditSucceed = require('../../middleware/redirectEditSucceed')
+const checkStrLength = require('../../public/javascripts/checkStrLength')
+const regex = require('../../public/javascripts/regex')
 
 router.get('/new', async (req, res) => {
   const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => {
@@ -45,63 +45,67 @@ router.post('/new', async (req, res) => {
 })
 
 router.get('/:recordId/edit', async (req, res) => {
-  const { recordId } = req.params
-  let { succeed } = req.query
-  if (typeof (succeed) === "undefined") {
-    succeed = false
-  } else {
-    succeed = succeed === "true"
-  }
+  try {
+    const userId = req.user._id
+    const { recordId } = req.params
 
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
-  Record.findById(recordId)
-    .lean()
-    .then(record => {
-      record.date = moment(record.date).format('YYYY-MM-DD')
-      const validate = checkValid(record)
-      res.render('edit', { categories, record, validate, editSucceed: succeed })
-    })
-    .catch(err => console.log(err))
+    const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).exec()
+    const record = await Record.findOne({ _id: recordId, userId }).lean().exec()
+    record.date = moment(record.date).format('YYYY-MM-DD')
+    const category_en = categories.find(cat => cat.category === record.category).category_en
+    return res.render('edit', { categories, record, category_en })
+  } catch (err) {
+    console.warn(err)
+  }
 })
 
 
 router.put('/:recordId', async (req, res) => {
-  const { recordId } = req.params
-  const options = req.body
-  const validate = checkValid(options)
+  try {
+    const userId = req.user._id
+    const { recordId } = req.params
+    const options = req.body
+    const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).exec()
+    let errors = []
 
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
+    if (!options.name || !options.category || !options.subcategory || !options.date || !options.amount) {
+      errors.push({ message: '有必填欄位為空白。' })
+    }
+    if (options.amount < 0) {
+      errors.push({ message: '金額不得為負數。' })
+    }
+    if (checkStrLength(options.name, 20) || checkStrLength(options.location, 20) || checkStrLength(options.merchant, 20)) {
+      errors.push({ message: '項目名稱、地點、店家字數不得超過 20。' })
+    }
+    if (!regex.matchReceipt(options.receipt)) {
+      errors.push({ message: '發票格式不符，範例: AC-77777777。' })
+    }
+    if (errors.length) {
+      req.flash('errors', errors)
+      return res.redirect(`/expense/${recordId}/edit`)
+    }
 
-  if (validate.err === 0) {
-    return Record.findById(recordId)
-      .then(record => {
-        record.type = options.type
-        record.name = options.name
-        record.date = options.date
-        record.amount = options.amount
-        record.location = options.location
-        record.receipt = options.receipt
-
-        const cateTarget = categories.find(cat => cat.category_en === options.category)
-        record.category = cateTarget.category
-        record.subcategory = cateTarget.subcategory[Number(options.subcategory)]
-        return record.save()
-      })
-      .then(() => {
-        res.redirect(`/expense/${recordId}/edit?succeed=true`)
-      })
-      .catch(err => console.log(err))
-  } else {
-    res.redirect(`/expense/${recordId}/edit?succeed=false`)
+    const cateTarget = categories.find(cat => cat.category_en === options.category)
+    options.category = cateTarget.category
+    options.subcategory = cateTarget.subcategory[Number(options.subcategory)]
+    const record = await Record.findOneAndUpdate({ _id: recordId, userId }, options).exec()
+    req.flash('success_msg', '支出更新成功, 可繼續更新或回到首頁!')
+    return res.redirect(`/expense/${recordId}/edit`)
+  } catch (err) {
+    console.warn(err)
   }
 })
 
-router.delete('/:recordId', (req, res) => {
-  const { recordId } = req.params
-  return Record.findById(recordId)
-    .then(record => record.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+router.delete('/:recordId', async (req, res) => {
+  try {
+    const userId = req.user._id
+    const { recordId } = req.params
+    await Record.findOneAndDelete({ _id: recordId, userId }).exec()
+    req.flash('success_msg', '支出刪除成功!')
+    return res.redirect('/')
+  } catch (err) {
+    console.warn(err)
+  }
 })
 
 

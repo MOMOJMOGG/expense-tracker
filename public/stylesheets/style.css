@@ -82,25 +82,6 @@ body {
   background-color: white;
 }
 
-.invalid-feedback {
-  display: none;
-}
-
-.invalid-feedback {
-  color: red;
-}
-
-/* .valid-feedback {
-  color: green;
-} */
-
-form.was-validated .form-control:invalid ~ .invalid-feedback {
-  display: initial;
-}
-
 .color-gold {
   color: gold;
 }
-/* form.was-validated .form-control:valid ~ .valid-feedback{
-  display: initial;
-} */

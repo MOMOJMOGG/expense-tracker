@@ -7,7 +7,8 @@ const CategoryModel = require('../../models/category')
 
 router.get('/', async (req, res) => {
   try {
-    const records = await Record.find().lean().sort({ date: 'desc' }).exec()
+    const userId = req.user._id
+    const records = await Record.find({ userId }).lean().sort({ date: 'desc' }).exec()
     const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).exec()
     res.render('index', { record: records, categories, init: true })
   } catch (err) {
