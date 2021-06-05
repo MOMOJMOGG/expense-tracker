@@ -32,6 +32,12 @@ const recordSchema = new Schema({
   receipt: {
     type: String,
     require: false
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    index: true,
+    required: true
   }
 })
 

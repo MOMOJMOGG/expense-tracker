@@ -80,8 +80,9 @@
       "subcategory": "午餐",
       "date": "2019-04-23",
       "amount": 60,
-      "location": "八方雲集",
-      "receipt": "AC-12345678"
+      "location": "台北市北投區",
+      "receipt": "AC-12345678",
+      "merchant": "八方雲集"
     },
     {
       "type": "支出",
@@ -90,8 +91,9 @@
       "subcategory": "晚餐",
       "date": "2019-04-23",
       "amount": 60,
-      "location": "小麵店",
-      "receipt": "AC-66666666"
+      "location": "台北市北投區",
+      "receipt": "AC-66666666",
+      "merchant": "7-11"
     },
     {
       "type": "支出",
@@ -101,7 +103,8 @@
       "date": "2019-04-23",
       "amount": 120,
       "location": "淡水-新店-淡水",
-      "receipt": "AC-77777777"
+      "receipt": "AC-77777777",
+      "merchant": "台北捷運"
     },
     {
       "name": "電影 : 驚奇隊長",
@@ -109,8 +112,9 @@
       "subcategory": "電影票",
       "date": "2019-04-23",
       "amount": 220,
-      "location": "威秀影城",
-      "receipt": "AC-02468999"
+      "location": "台北市板橋區",
+      "receipt": "AC-02468999",
+      "merchant": "威秀影城"
     },
     {
       "type": "支出",
@@ -120,7 +124,8 @@
       "date": "2019-04-01",
       "amount": 25000,
       "location": "",
-      "receipt": "AC-97531000"
+      "receipt": "AC-97531000",
+      "merchant": ""
     },
     {
       "type": "支出",
@@ -130,7 +135,15 @@
       "date": "2021-05-10",
       "amount": 34000,
       "location": "",
-      "receipt": "AC-36996388"
+      "receipt": "AC-36996388",
+      "merchant": ""
+    }
+  ],
+  "users": [
+    {
+      "name": "user1",
+      "email": "user1@example.com",
+      "password": "12345678"
     }
   ]
 }

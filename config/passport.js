@@ -12,7 +12,7 @@ module.exports = app => {
   // passport 本地登入策略
   passport.use(new LocalStrategy({ usernameField: 'email', passReqToCallback: true }, async (req, email, password, done) => {
     try {
-      const user = await User.findOne({ email })
+      const user = await User.findOne({ email }).exec()
       if (!user) {
         return done(null, false, req.flash('errors', { message: '此信箱尚未註冊，請註冊一組帳號!' }))
       }
@@ -36,7 +36,7 @@ module.exports = app => {
   }, async (accessToken, refreshToken, profile, done) => {
     try {
       const { name, email } = profile._json
-      let user = await User.findOne({ email })
+      let user = await User.findOne({ email }).exec()
       if (user) {
         return done(null, user)
       }
@@ -59,7 +59,7 @@ module.exports = app => {
   })
   passport.deserializeUser(async (id, done) => {
     try {
-      const user = await User.findById(id).lean()
+      const user = await User.findById(id).lean().exec()
       if (user) {
         return done(null, user)
       }

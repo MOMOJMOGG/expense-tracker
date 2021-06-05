@@ -1,37 +1,36 @@
+const bcrypt = require('bcryptjs')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const Record = require('../record') // 載入 record model
-const { records } = require('./rawdata.json') // 載入 record json 資料
+const User = require('../user')     // 載入 user model
+const { records, users } = require('./rawdata.json') // 載入 record json 資料
 
 const db = require('../../config/mongoose')
 
-db.once('open', () => {
-  console.log('Connected to MongoDB -- Record!')
+db.once('open', async () => {
+  try {
+    // create user
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(users[0].password, salt)
+    const user = await User.create({ name: users[0].name, email: users[0].email, password: hash })
+    if (user) {
+      console.log('User Seeder Creating Finished!')
+      const userId = user._id
+      const mapRecords = records.map((item) => {
+        item.userId = userId
+        return item
+      })
 
-  Record.create(records)
-    .then(() => {
-      console.log('Record Seeder Creating Finished!')
-      return db.close()
-    })
-    .then(() => console.log('MongoDB Connected Closed!'))
-    .catch(error => console.log(error))
-  // Promise Method
-  // const promise = []
-  // recordsList.results.forEach(record => {
-  //   promise.push(
-  //     Record.create({
-  //       type: record.type,
-  //       name: record.name,
-  //       category: record.category,
-  //       subcategory: record.subcategory,
-  //       date: record.date,
-  //       amount: record.amount,
-  //       location: record.location,
-  //       receipt: record.receipt
-  //     })
-  //   )
-  // })
-  // 
-  // Promise.all(promise).then(() => {
-  //   db.close()
-  //   console.log('MongoDB Connected Closed')
-  // })
+      // create records
+      const record = await Record.create(mapRecords)
+      if (record) {
+        console.log('Record Seeder Creating Finished!')
+        await db.close()
+        console.log('MongoDB Connected Closed!')
+      }
+    }
+  } catch (err) {
+    return console.warn(err)
+  }
 })

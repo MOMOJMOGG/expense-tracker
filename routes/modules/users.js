@@ -43,7 +43,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Exist user
-    let user = await User.findOne({ email })
+    let user = await User.findOne({ email }).exec()
     if (user) {
       errors.push({ message: '這個 Email 已經註冊過了。' })
       return res.render('register', {
