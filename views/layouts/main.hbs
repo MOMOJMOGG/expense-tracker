@@ -26,14 +26,18 @@
               class="fas fa-dollar-sign color-gold"></i><i class="fas fa-dollar-sign color-gold"></i></h2>
         </a>
         {{#if isAuthenticated}}
-        <a href=" /users/logout" class="btn btn-primary">Logout
-        </a>
+        <div class="d-flex">
+          <form class="form-inline create-btn mr-2" action="/expense/new" method="GET">
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Create <i
+                class="fas fa-plus-square"></i></button>
+          </form>
+          <a href=" /users/logout" class="btn btn-primary">Logout
+          </a>
+        </div>
         {{else}}
         <a href="/users/login" class="btn btn-primary">Login</a>
         {{/if}}
-        {{!-- <form class="form-inline create-btn" action="/expense/new" method="GET">
-          <button class="btn btn-success my-2 my-sm-0" type="submit">Create <i class="fas fa-plus-square"></i></button>
-        </form> --}}
+
       </div>
     </nav>
   </header>
