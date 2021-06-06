@@ -1,5 +1,5 @@
-<div class="container mt-5 select-bar col-8 max-auto">
-  <div class="d-flex justify-content-between">
+<div class="container mt-5 select-bar">
+  <div class="d-flex justify-content-between col-12 max-auto p-0">
     <a class="btn btn-warning col-2" data-toggle="collapse" href="#collapse-filter" role="button" aria-expanded="false"
       aria-controls="collapse-filter" style="font-size: 18px;">篩選 <i class="fas fa-funnel-dollar"></i></a>
     <a class="btn btn-success col-2" href="/expense/new" role="button" style="font-size: 18px;">新增 <i
@@ -7,7 +7,7 @@
   </div>
 
   <div class="row">
-    <div class="col">
+    <div class="col-12">
       <div class="collapse {{#if month}}show{{/if}}" id="collapse-filter">
         <div class="card card-body" style="background-color: rgb(50, 189, 207);">
           <form action="/" method="POST" class="form-group col-12 mx-auto my-auto d-flex justify-content-between">
@@ -17,7 +17,7 @@
             {{!-- category --}}
             <select name="sortType" class="form-control btn-outline-primary d-inline-block col-5 ml-1 mr-2"
               id='sortType' onchange="this.form.submit()" style="cursor: pointer;">
-              <option class="placeholder" value="default" {{#if init}}selected{{/if}}>類別</option>
+              <option class="placeholder" value="default" {{#if init}}selected{{/if}} hidden>類別</option>
               {{#each categories }}
               <option value="{{this.category_en}}" {{#if (match ../sortType this.category_en)}}selected{{/if}}>
                 {{this.category}}
