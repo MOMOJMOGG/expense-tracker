@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
     if (!month && !sortType) {
       return res.render('index', { record: records, categories, init: true })
     } else {
+      // 考慮月份與類別篩選
       if (month !== 'all' && sortType !== 'default') {
         const sortByMonth = records.filter((item) => {
           const formatDate = moment(item.date).format('YYYY-MM-DD')
@@ -41,7 +42,6 @@ router.get('/', async (req, res) => {
           return dateSlice === month
         })
       }
-      console.log(sortedRecords)
       return res.render('index', { record: sortedRecords, categories, month, sortType })
     }
   } catch (err) {
@@ -51,13 +51,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', (req, res) => {
   let { month, sortType } = req.body
-  console.log(month)
-  console.log(sortType)
   if (month === '') {
     month = 'all'
   }
-  console.log(month)
-  console.log(sortType)
   return res.redirect(`/?month=${month}&sortType=${sortType}`)
 })
 

@@ -1,14 +1,14 @@
 <div class="container mt-5 select-bar col-8 max-auto">
   <div class="d-flex justify-content-between">
     <a class="btn btn-warning col-2" data-toggle="collapse" href="#collapse-filter" role="button" aria-expanded="false"
-      aria-controls="collapse-filter" style="font-size: 18px;">搜尋 <i class="fas fa-funnel-dollar"></i></a>
+      aria-controls="collapse-filter" style="font-size: 18px;">篩選 <i class="fas fa-funnel-dollar"></i></a>
     <a class="btn btn-success col-2" href="/expense/new" role="button" style="font-size: 18px;">新增 <i
         class="fas fa-plus-square"></i></a>
   </div>
 
   <div class="row">
     <div class="col">
-      <div class="collapse multi-collapse" id="collapse-filter">
+      <div class="collapse {{#if month}}show{{/if}}" id="collapse-filter">
         <div class="card card-body" style="background-color: rgb(50, 189, 207);">
           <form action="/" method="POST" class="form-group col-12 mx-auto my-auto d-flex justify-content-between">
             {{!-- month --}}
@@ -24,6 +24,7 @@
               </option>
               {{/each}}
             </select>
+            {{!-- Reset --}}
             <a class="btn btn-dark col-2" href="/" role="button" style="font-size: 14px;">清除篩選 <i
                 class="fas fa-redo-alt"></i></a>
           </form>
@@ -151,9 +152,9 @@
         {{!-- card footer --}}
         <div class="card-body d-flex justify-content-end">
           {{!-- edit icon --}}
-          <a class="btn btn-success mr-3" href="/expense/{{ this._id }}/edit">Edit <i class="fas fa-edit"></i></a>
+          <a class="btn btn-success mr-3" href="/expense/{{ this._id }}/edit">編輯 <i class="fas fa-edit"></i></a>
           <!-- delete icon -->
-          <button class="del-btn btn btn-danger btn-sm" type="button" data-id="{{this._id}}">Delete
+          <button class="del-btn btn btn-danger btn-sm" type="button" data-id="{{this._id}}">刪除
             <i class="fas fa-trash-alt"></i></button>
         </div>
       </div>
@@ -178,9 +179,9 @@
         <h2 class="text-white">你確定要刪除嗎!?</h2>
       </div>
       <div class="modal-footer bg-dark" style="border-top: 1px dashed gray;">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Give Up <i class="fas fa-undo"></i></button>
-        <form id="del-btn-link" action="/" method="GET" class="d-inline"><button type="submit"
-            class="btn btn-danger">Delete <i class="fas fa-trash-alt"></i></button></form>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">取消 <i class="fas fa-undo"></i></button>
+        <form id="del-btn-link" action="/" method="GET" class="d-inline"><button type="submit" class="btn btn-danger">刪除
+            <i class="fas fa-trash-alt"></i></button></form>
       </div>
     </div>
   </div>
