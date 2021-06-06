@@ -4,35 +4,61 @@ const router = express.Router()
 // 引用 Todo model
 const Record = require('../../models/record')
 const CategoryModel = require('../../models/category')
+const moment = require('moment')
 
 router.get('/', async (req, res) => {
   try {
     const userId = req.user._id
-    const records = await Record.find({ userId }).lean().sort({ date: 'desc' }).exec()
     const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).exec()
-    res.render('index', { record: records, categories, init: true })
+    const records = await Record.find({ userId }).lean().sort({ date: 'desc' }).exec()
+    let sortedRecords = []
+
+    let { month, sortType } = req.query
+    if (!month && !sortType) {
+      return res.render('index', { record: records, categories, init: true })
+    } else {
+      if (month !== 'all' && sortType !== 'default') {
+        const sortByMonth = records.filter((item) => {
+          const formatDate = moment(item.date).format('YYYY-MM-DD')
+          const dateSlice = formatDate.slice(0, 7)
+          return dateSlice === month
+        })
+        if (sortByMonth.length !== 0) {
+          const categoryCn = categories.find((cate) => { return cate.category_en === sortType }).category
+          sortedRecords = sortByMonth.filter((item) => {
+            return item.category === categoryCn
+          })
+        }
+      } else if (month === 'all') {
+        const categoryCn = categories.find((cate) => { return cate.category_en === sortType }).category
+        sortedRecords = records.filter((item) => {
+          return item.category === categoryCn
+        })
+      } else if (sortType === 'default') {
+        sortedRecords = records.filter((item) => {
+          const formatDate = moment(item.date).format('YYYY-MM-DD')
+          const dateSlice = formatDate.slice(0, 7)
+          return dateSlice === month
+        })
+      }
+      console.log(sortedRecords)
+      return res.render('index', { record: sortedRecords, categories, month, sortType })
+    }
   } catch (err) {
     return console.warn(err)
   }
 })
 
-router.post('/', async (req, res) => {
-  const { sortType } = req.body
-  let records = []
-  const categories = await CategoryModel.find().lean().sort({ _id: 'asc' }).then(categories => { return categories }).catch(err => console.log(err))
-
-  if (sortType === "default") {
-    records = await Record.find().lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
-  } else {
-    const targetCategory = categories.find(cat => cat.category_en === sortType)
-    records = await Record.find({ category: targetCategory.category }).lean().sort({ date: 'desc' }).then(records => { return records }).catch(err => console.log(err))
+router.post('/', (req, res) => {
+  let { month, sortType } = req.body
+  console.log(month)
+  console.log(sortType)
+  if (month === '') {
+    month = 'all'
   }
-
-  if (records.length === 0) {
-    res.render('searchErr', { categories })
-  } else {
-    res.render('index', { record: records, categories, sortType })
-  }
+  console.log(month)
+  console.log(sortType)
+  return res.redirect(`/?month=${month}&sortType=${sortType}`)
 })
 
 // 匯出路由模組

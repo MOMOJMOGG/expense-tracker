@@ -1,18 +1,39 @@
-<div class="container mt-5 select-bar">
-  <form action="/" method="POST" class="form-group col-8 mx-auto d-flex">
-    {{!-- month --}}
-    <input type="month" id="month" class="d-inline-block w-50 mr-1" name="month" min="2020-01" max="2021-12"
-      value="2021-06">
-    {{!-- category --}}
-    <select name="sortType" class="form-control btn-outline-primary d-inline-block w-50 ml-1" id='sortType'
-      onchange="this.form.submit()" style="cursor: pointer;">
-      <option class="placeholder" value="default" {{#if init}}selected{{/if}}>類別</option>
-      {{#each categories }}
-      <option value="{{this.category_en}}" {{#if (match ../sortType this.category_en)}}selected{{/if}}>{{this.category}}
-      </option>
-      {{/each}}
-    </select>
-  </form>
+<div class="container mt-5 select-bar col-8 max-auto">
+  <div class="d-flex justify-content-between">
+    <a class="btn btn-warning col-2" data-toggle="collapse" href="#collapse-filter" role="button" aria-expanded="false"
+      aria-controls="collapse-filter" style="font-size: 18px;">搜尋 <i class="fas fa-funnel-dollar"></i></a>
+    <a class="btn btn-success col-2" href="/expense/new" role="button" style="font-size: 18px;">新增 <i
+        class="fas fa-plus-square"></i></a>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="collapse multi-collapse" id="collapse-filter">
+        <div class="card card-body" style="background-color: rgb(50, 189, 207);">
+          <form action="/" method="POST" class="form-group col-12 mx-auto my-auto d-flex justify-content-between">
+            {{!-- month --}}
+            <input type="month" id="month" class="d-inline-block col-5 mr-1" name="month" min="2019-01" max="2021-12"
+              value="{{month}}" onchange="this.form.submit()">
+            {{!-- category --}}
+            <select name="sortType" class="form-control btn-outline-primary d-inline-block col-5 ml-1 mr-2"
+              id='sortType' onchange="this.form.submit()" style="cursor: pointer;">
+              <option class="placeholder" value="default" {{#if init}}selected{{/if}}>類別</option>
+              {{#each categories }}
+              <option value="{{this.category_en}}" {{#if (match ../sortType this.category_en)}}selected{{/if}}>
+                {{this.category}}
+              </option>
+              {{/each}}
+            </select>
+            <a class="btn btn-dark col-2" href="/" role="button" style="font-size: 14px;">清除篩選 <i
+                class="fas fa-redo-alt"></i></a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </div>
 
 <div class="price-zone container mt-5 mx-auto col-8 px-4 py-2 d-flex justify-content-between">
